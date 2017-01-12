@@ -1,30 +1,31 @@
 (function(angular) {
-  var AppController = function($scope, Item) {
-    Item.query(function(response) {
-      $scope.items = response ? response : [];
+  var AppController = function($scope, Exam) {
+    Exam.query(function(response) {
+      $scope.exams = response ? response : [];
     });
     
-    $scope.addItem = function(description) {
-      new Item({
+    $scope.addExam = function(name, description) {
+      new Exam({
+        name: name,
         description: description,
         checked: false
-      }).$save(function(item) {
-        $scope.items.push(item);
+      }).$save(function(exam) {
+        $scope.exams.push(exam);
       });
-      $scope.newItem = "";
+      $scope.newExam = "";
     };
     
-    $scope.updateItem = function(item) {
-      item.$update();
+    $scope.updateExam = function(exam) {
+      exam.$update();
     };
     
-    $scope.deleteItem = function(item) {
-      item.$remove(function() {
-        $scope.items.splice($scope.items.indexOf(item), 1);
+    $scope.deleteExam = function(exam) {
+      exam.$remove(function() {
+        $scope.exams.splice($scope.exams.indexOf(exam), 1);
       });
     };
   };
   
-  AppController.$inject = ['$scope', 'Item'];
+  AppController.$inject = ['$scope', 'Exam'];
   angular.module("myApp.controllers").controller("AppController", AppController);
 }(angular));
